@@ -1,0 +1,42 @@
+= Pizzaworld
+
+Klient posiada sieć pizzerii i potrzebuje aplikacji do zarządzania kartami 
+dań w nich. Każda pizzeria posiada nazwę (unikalną), adres i godziny otwarcia. 
+W każdej pizzerii można serwować różne rodzaje pizzy. Każdy rodzaj pizzy ma swoją
+nazwę, cenę i listę składników (jako opis).
+
+== Założenia
+
+Najważniejsze założenie: sieć pizzerii posiada zbiór przepisów (zestawów dodatków) na pizzę, które
+przypisuje do swoich lokali. Stąd każda pizza ma jedną cenę we wszystkich lokalach,
+a jej zmiana (jak i innych atrybutów) powoduje zaktualizowanie menu we wszystkich
+restauracjach, które miały ją w ofercie.
+
+Nie jest to jedyne możliwe podejście. Innym, równie dobrym, byłoby założenie że każda
+restauracja ma zupełnie oddzielne menu. Wówczas mogłoby istnieć wiele pizz o tej samej nazwie
+i tym samym składzie, ale o różnej cenie, każda przypisana do innego lokalu. 
+Modyfikacja czy dodanie nowej pizzy do każdego lokalu należałoby robić osobno.
+
+A można zrobić jeszcze lepiej. Na bazie obecnego schematu dodać w tabeli łączącej
+pizzas_restaurants pole ceny, stworzyć join model, i użyć relacji has_many :through.
+Wtedy mamy jedno i drugie - zmiany w przepisie od razu aktualizują menu we wszystkich
+restauracjach, ale ceny sa ustalane per lokal. 
+
+= Uruchamianie
+
+Wymagania: ruby 1.9.2, bundler, zainstalowany pakiet sqlite3-dev (do zbudowania niezbędnego gema)
+
+Z linii poleceń po kolei:
+
+$ git clone http://github.com/k3rni/pizzaworld
+$ cd pizzaworld
+$ bundle install
+$ rake db:setup db:seed
+$ rails server
+
+= Testy
+
+Ze względu na prostotę modeli (które nie zawierają żadnych nietrywialnych metod), 
+nie ma do nich unittestów (gdyby były, to testowałyby ActiveRecord, a nie aplikację).
+Dodatkowych kilka testów jest za to w testach funkcjonalnych, sprawdzają one
+zachowanie się akcji create i update w obliczu powtórzonych danych.

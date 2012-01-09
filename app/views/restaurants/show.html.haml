@@ -1,0 +1,28 @@
+%h1 Restaurant #{@restaurant.name}
+
+%dl
+  %dt name
+  %dd= @restaurant.name
+  %dt address
+  %dd= @restaurant.address
+  %dt opening hours
+  %dd= @restaurant.opening_hours
+
+%h2 Menu
+
+%table
+  %thead
+    %tr
+      %td name
+      %td price
+  %tbody
+    - @restaurant.pizzas.each do |p|
+      %tr
+        %td
+          %b= p.name
+          %br
+          = p.description
+        %td= p.price
+
+= link_to 'Edit', edit_restaurant_path(@restaurant)
+= link_to 'Back', restaurants_path

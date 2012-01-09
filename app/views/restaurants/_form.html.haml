@@ -1,0 +1,37 @@
+= form_for @restaurant do |f|
+  - if @restaurant.errors.any?
+    #error_explanation
+      Cannot save this-a restaurant, there are errors:
+      %ul
+        - @restaurant.errors.full_messages.each do |msg|
+          %li= msg
+  
+  = f.label :name, "Name"
+  = f.text_field :name
+  %br
+
+  = f.label :address, "Address"
+  = f.text_field :address
+  %br
+
+  = f.label :opening_hours, "Opening hours"
+  = f.text_field :opening_hours
+  %br
+
+
+  %h2 Menu
+  -# można tak, ale brzydkie ui
+  -#= f.select :pizzas, options_from_collection_for_select(Pizza.all, :id, :select_text, @restaurant.pizzas.map(&:id)), {}, :multiple => true
+  = hidden_field_tag "restaurant[pizza_ids][]", ""
+  %ul
+    - Pizza.all.each do |p|
+      %li
+
+        = label_tag "restaurant[pizza_ids]_#{p.id}" do
+          = check_box_tag "restaurant[pizza_ids][]", p.id, @restaurant.pizzas.include?(p), :id => "restaurant[pizza_ids]_#{p.id}"
+          = p.select_text
+    %li= link_to "Go to pizzas list", pizzas_path, :target => '_new'
+
+  .actions
+    = f.submit
+

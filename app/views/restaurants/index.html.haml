@@ -1,0 +1,20 @@
+%h1 All restaurants
+
+%table
+  %thead
+    %tr
+      %th name
+      %th address
+      %th opening hours
+      %th actions
+  %tbody
+    - @restaurants.each do |r|
+      %tr
+        %td= link_to r.name, restaurant_path(r)
+        %td= r.address
+        %td= r.opening_hours
+        %td
+          = link_to "Edit", edit_restaurant_path(r)
+          = link_to "Delete", restaurant_path(r), method: :delete, confirm: "Really delete this restaurant?"
+
+= link_to "New", new_restaurant_path

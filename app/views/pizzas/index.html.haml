@@ -1,0 +1,21 @@
+%h1 All pizzas
+
+%table
+  %thead
+    %tr
+      %th name
+      %th price
+      %th actions
+  %tbody
+    - @pizzas.each do |p|
+      %tr
+        %td
+          %b= p.name
+          %br
+          = p.description
+        %td= number_with_precision p.price, precision: 2
+        %td
+          = link_to "Edit", edit_pizza_path(p)
+          = link_to "Delete", pizza_path(p), method: :delete, confirm: "Really delete this pizza?"
+
+= link_to "New", new_pizza_path

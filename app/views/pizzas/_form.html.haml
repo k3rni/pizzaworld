@@ -1,0 +1,19 @@
+= form_for @pizza do |f|
+  - if @pizza.errors.any?
+    #error_explanation
+      Cannot save this pizza due to following errors:
+      %ul
+        - @pizza.errors.full_messages.each do |msg|
+          %li= msg
+  = f.label :name, "Name"
+  = f.text_field :name
+  %br
+  = f.label :price, "Price"
+  = f.text_field :price
+  %br
+  = f.label :description, "Ingredients list"
+  = f.text_area :description
+  %br
+
+  .actions
+    = f.submit
